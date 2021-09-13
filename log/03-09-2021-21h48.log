@@ -1,0 +1,29 @@
+[21:48:43,138][INFO][7416][TL_mon.py:190] ==============CONFIG DATA======================
+[21:48:43,138][INFO][7416][TL_mon.py:191] pancake_factory_addr= 0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73
+[21:48:43,139][INFO][7416][TL_mon.py:192] pancake_router_addr= 0x10ED43C718714eb63d5aA57B78B54704E256024E
+[21:48:43,139][INFO][7416][TL_mon.py:193] sound_alamp= True
+[21:48:43,139][INFO][7416][TL_mon.py:194] msg_notifi= True
+[21:48:43,139][INFO][7416][TL_mon.py:195] notifi_delay= 1.0
+[21:48:43,139][INFO][7416][TL_mon.py:196] get_price_delay= 0.5
+[21:48:43,139][INFO][7416][TL_mon.py:197] ==============END CONFIG DATA======================
+[21:48:48,210][INFO][7416][TL_mon.py:112] Sound Alert
+[21:48:49,121][INFO][7416][TL_mon.py:95] Connected to BSC
+[21:48:49,122][INFO][16356][TL_mon.py:307] ==========================checking APE TL
+[21:48:49,122][INFO][11456][TL_mon.py:355] ==========================checking BI TL
+[21:48:49,569][INFO][11456][TL_mon.py:391] getting all txs from block 10595285
+[21:48:49,569][ERROR][11456][TL_mon.py:403] error
+Traceback (most recent call last):
+  File "C:\_prj\dex_bot\TL_mon.py", line 393, in biTL
+    txs = getAllTxs(biTLaddr, startBlk)
+  File "C:\_prj\dex_bot\TL_mon.py", line 265, in getAllTxs
+    print('get txs: block = ' + fromBlk + ', addr: ' + strAddr)
+TypeError: can only concatenate str (not "int") to str
+[21:48:50,000][INFO][7416][TL_mon.py:127] Message Notification:Bot Monitor started
+[21:48:51,328][INFO][16356][TL_mon.py:338] getting all txs from block 10595285
+[21:48:51,328][ERROR][16356][TL_mon.py:349] error
+Traceback (most recent call last):
+  File "C:\_prj\dex_bot\TL_mon.py", line 339, in apeTL
+    txs = getAllTxs(apeTLaddr, startBlk)
+  File "C:\_prj\dex_bot\TL_mon.py", line 265, in getAllTxs
+    print('get txs: block = ' + fromBlk + ', addr: ' + strAddr)
+TypeError: can only concatenate str (not "int") to str

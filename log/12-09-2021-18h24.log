@@ -1,0 +1,30 @@
+[18:24:24,146][INFO][3668][ape.py:672] ==============CONFIG DATA======================
+[18:24:24,147][INFO][3668][ape.py:673] pancake_factory_addr= 0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6
+[18:24:24,147][INFO][3668][ape.py:674] pancake_router_addr= 0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7
+[18:24:24,147][INFO][3668][ape.py:675] sound_alamp= True
+[18:24:24,147][INFO][3668][ape.py:676] msg_notifi= True
+[18:24:24,147][INFO][3668][ape.py:677] notifi_delay= 1.0
+[18:24:24,147][INFO][3668][ape.py:678] get_price_delay= 2.0
+[18:24:24,147][INFO][3668][ape.py:679] ==============END CONFIG DATA======================
+[18:24:24,148][INFO][3668][ape.py:705] Telegram bot connected
+[18:24:29,220][INFO][3668][ape.py:280] Sound Alert
+[18:24:30,366][INFO][3668][ape.py:209] Connected to BSC
+[18:24:30,366][INFO][3668][ape.py:210] Wallet Address: 0x7368417235b39204D4F33d87A3b527b130a9aa23
+[18:24:30,374][INFO][3668][ape.py:756] Slippage Tolerance: 1.000. Flexible Slippage: False. Amount In: 0.010. Gas Price: 8000000000. Gas: 230000. Time limit: 600
+[18:24:30,375][INFO][3668][ape.py:776] Token list: 0x1FFD0b47127fdd4097E54521C9E2c7f0D66AafC5 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c
+[18:24:31,398][INFO][3668][ape.py:295] Message Notification:Bot started
+[18:24:31,748][INFO][4604][ape.py:448] Started checking price:TXL/WBNB
+[18:24:36,076][INFO][4604][ape.py:496] Block: 10848078, TXL/WBNB Price:  0.000809
+[18:24:36,077][INFO][4604][ape.py:512] TXL/WBNB =  0.000809. Drop to  0.000820
+[18:24:36,077][INFO][4604][ape.py:308] Token list: 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c 0x1FFD0b47127fdd4097E54521C9E2c7f0D66AafC5
+[18:24:36,077][INFO][4604][ape.py:309] Price: 1235.915312
+[18:24:36,327][INFO][4604][ape.py:319] currBal: 0
+[18:24:36,328][INFO][4604][ape.py:327] In: 0. Min out:0
+[18:24:36,328][INFO][4604][ape.py:391] ======================AmountIn = 0
+[18:24:41,398][INFO][4604][ape.py:280] Sound Alert
+[18:24:41,982][INFO][3668][ape.py:295] Message Notification:TXL/WBNB: 0.0008091169274527157
+[18:24:43,867][ERROR][4604][ape.py:474] Block changed fast: from 10848078 to 10848081 >> clear the price_queue
+[18:24:46,352][ERROR][4604][ape.py:474] Block changed fast: from 10848081 to 10848083 >> clear the price_queue
+[18:24:49,058][INFO][14368][ape.py:604] Key Q pressed - Exit
+[18:24:49,708][INFO][4604][ape.py:558] Exit loop:0:TXL/WBNB
+[18:24:50,042][INFO][3668][ape.py:806] Program Exit

@@ -1,0 +1,27 @@
+[17:39:58,733][INFO][11988][TL_mon.py:202] ==============CONFIG DATA======================
+[17:39:58,733][INFO][11988][TL_mon.py:203] pancake_factory_addr= 0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73
+[17:39:58,734][INFO][11988][TL_mon.py:204] pancake_router_addr= 0x10ED43C718714eb63d5aA57B78B54704E256024E
+[17:39:58,734][INFO][11988][TL_mon.py:205] sound_alamp= True
+[17:39:58,734][INFO][11988][TL_mon.py:206] msg_notifi= True
+[17:39:58,734][INFO][11988][TL_mon.py:207] notifi_delay= 1.0
+[17:39:58,734][INFO][11988][TL_mon.py:208] get_price_delay= 0.5
+[17:39:58,734][INFO][11988][TL_mon.py:209] ==============END CONFIG DATA======================
+[17:40:03,796][INFO][11988][TL_mon.py:120] Sound Alert
+[17:40:04,903][INFO][11988][TL_mon.py:93] ADDR: 0x7368417235b39204D4F33d87A3b527b130a9aa23
+[17:40:05,177][INFO][11988][TL_mon.py:100] Connected to BSC
+[17:40:05,177][INFO][8376][TL_mon.py:334] ==========================checking APE TL
+[17:40:05,178][INFO][13120][TL_mon.py:382] ==========================checking BI TL
+[17:40:05,182][INFO][10824][TL_mon.py:447] swapBy1in from 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee  to 0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82  with amount 0.1  slippage = 1.000000
+[17:40:05,523][INFO][10824][TL_mon.py:472] https://api.1inch.exchange/v3.0/56/swap
+[17:40:05,620][INFO][13120][TL_mon.py:418] getting all txs from block 10761634
+[17:40:05,753][INFO][8376][TL_mon.py:365] getting all txs from block 10761635
+[17:40:06,438][INFO][11988][TL_mon.py:139] Message Notification:Bot Monitor started
+[17:40:06,616][INFO][10824][TL_mon.py:474] temp1 ============
+[17:40:06,616][INFO][10824][TL_mon.py:475] <Response [200]>
+[17:40:06,616][ERROR][10824][TL_mon.py:468] Error signing transaction
+Traceback (most recent call last):
+  File "C:\_prj\dex_bot\TL_mon.py", line 458, in swapBy1in
+    txnData = apiCaller(oneInSwapUrl,PARAMS, nonce) #       //call the api to get the data, and wait until it returns
+  File "C:\_prj\dex_bot\TL_mon.py", line 476, in apiCaller
+    temp = temp.data;                               #//we only want the data object from the api call
+AttributeError: 'Response' object has no attribute 'data'

@@ -1,0 +1,24 @@
+[16:25:05,672][INFO][13916][mainH - Copy.py:190] ==============CONFIG DATA======================
+[16:25:05,672][INFO][13916][mainH - Copy.py:191] pancake_factory_addr= 0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73
+[16:25:05,672][INFO][13916][mainH - Copy.py:192] pancake_router_addr= 0x10ED43C718714eb63d5aA57B78B54704E256024E
+[16:25:05,672][INFO][13916][mainH - Copy.py:193] sound_alamp= True
+[16:25:05,672][INFO][13916][mainH - Copy.py:194] msg_notifi= True
+[16:25:05,672][INFO][13916][mainH - Copy.py:195] notifi_delay= 1.0
+[16:25:05,673][INFO][13916][mainH - Copy.py:196] get_price_delay= 0.5
+[16:25:05,673][INFO][13916][mainH - Copy.py:197] ==============END CONFIG DATA======================
+[16:25:10,781][INFO][13916][mainH - Copy.py:112] Sound Alert
+[16:25:11,658][INFO][13916][mainH - Copy.py:95] Connected to BSC
+[16:25:11,658][INFO][14232][mainH - Copy.py:303] ==========================checking APE TL
+[16:25:11,659][INFO][7360][mainH - Copy.py:348] ==========================checking BI TL
+[16:25:12,122][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
+[16:25:12,401][INFO][13916][mainH - Copy.py:127] Message Notification:Bot Monitor started
+[16:25:22,830][INFO][7360][mainH - Copy.py:383] getting all txs from block 10588965
+[16:26:14,058][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
+[16:27:16,090][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
+[16:28:18,580][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
+[16:29:19,914][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
+[16:30:22,175][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
+[16:30:24,126][INFO][7360][mainH - Copy.py:383] getting all txs from block 10588965
+[16:31:23,372][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
+[16:32:24,840][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
+[16:33:26,293][INFO][14232][mainH - Copy.py:333] getting all txs from block 10588961
