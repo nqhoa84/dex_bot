@@ -26,6 +26,15 @@ lstMonitorTokens = [
     , '0xf0E406c49C63AbF358030A299C0E00118C4C6BA5' # NVT
     ]
 
+bscHttpAnkr = "https://apis.ankr.com/97522e91a426495491f0246ba13ae63a/b8f7775c4893656bf95c6abb3cecfb2c/binance/full/main";
+bscWssAnkr = "wss://apis.ankr.com/wss/97522e91a426495491f0246ba13ae63a/b8f7775c4893656bf95c6abb3cecfb2c/binance/full/main";
+bscWssQuicknode = "wss://quiet-summer-cloud.bsc.quiknode.pro/e93f9bf5b881c4123a45e5496d4fc74a4d8c5194/";
+polyWssAnkr = "wss://apis.ankr.com/wss/b2704173031a4cbb9509d03c25f7098b/b8f7775c4893656bf95c6abb3cecfb2c/polygon/full/main";
+ethHttpAnkr = "https://apis.ankr.com/89da184e515f4a96a953699920c28d03/b8f7775c4893656bf95c6abb3cecfb2c/eth/fast/main";
+
+usedUrl = bscHttpAnkr
+
+    
 pancake_factory = 0
 pancake_router = 0
 w3 = ""
@@ -587,7 +596,7 @@ def MonitorAllPendings():
             subT.start() 
         
         d = time.time()
-        logging.info("time to process all hasesh: %9f", d - c)
+        logging.info("time to process all hashes: %9f", d - c)
 
 def processTxInNewThread(txHash):
     logging.error("begin---- %s", txHash.hex())
@@ -622,11 +631,7 @@ def processTx(tran):
             logging.info('tkInInLP %s, tkOutInLp %s', tkInInLP, tkOutInLp) 
 
                 #if you want to sell/buy do it here quickly. 
-def isBnbAddr(addr):
-    return addr == '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 
-def isBusdAddr(addr):
-    return addr == '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56'
 
 def checkIsSwapTx(tx): 
     

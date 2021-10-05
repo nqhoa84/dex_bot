@@ -242,9 +242,9 @@ def main():
         ht = threading.Thread(target=KeyHook, args=())
         ht.start()
         
-        # fromBlk = 0 #10667269 - 2
-        # dr = threading.Thread(target=apeTL, args=(fromBlk,))
-        # dr.start()
+        fromBlk = 11153148-1 #10667269 - 2
+        dr = threading.Thread(target=apeTL, args=(fromBlk,))
+        dr.start()
         #
         # fromBlk2 = 0
         # dr2 = threading.Thread(target=biTL, args=(fromBlk2,))

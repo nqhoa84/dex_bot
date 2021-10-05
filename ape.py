@@ -15,9 +15,8 @@ import logging
 from datetime import datetime
 from collections import namedtuple
 import webbrowser 
-import dexlib
-from mainH import isBnbAddr
-from dexlib import swapBnbToToken1in, swapTokenToBnb1in, swap1in
+import dexlib 
+from dexlib import swapBnbToToken1in, swapTokenToBnb1in, swap1in, isBnbAddr
 
 pancake_factory = 0
 pancake_router = 0
@@ -50,7 +49,7 @@ logging.basicConfig(filename=F"./log/{datetime.now().strftime('%d-%m-%Y-%Hh%M')}
                     level=logging.INFO)
 
 TransactionData = namedtuple('TransactionData',
-                             ['slippage_tolerance', 'amount_input', 'gas_price', 'gas', 'time_limit'])
+                             ['slippage_tolerance', 'amount_input', 'gas_price', 'gas', 'time_limit', 'dex'])
 
 
 class Trend(enum.Enum):
@@ -244,7 +243,7 @@ def CalculateBnbPrice():
         logging.debug("BnbPrice: %f, ", r1/r0)
         return r1/r0
     
-def CalculateLP(token, bnbPrice = 500.0):
+def CalculateLP(token, bnbPrice = 359.0):
     
     pair = pancake_factory.functions.getPair(token[0], token[1]).call()
     pair_contract = web3.eth.contract(address=pair, abi=json_abi)
@@ -312,7 +311,7 @@ def getBalance(tokenAddr = 'native'):
     else :
         return web3.eth.contract(address = tokenAddr, abi=json_abi).functions.balanceOf(wallet_address).call()
 
-def Swap(token_list, trans_data, price, decimal):
+def Swap1in(token_list, trans_data, price, decimal):
     logging.info("Token list: {}".format(' '.join(map(str, token_list))))
     logging.info("Price: %lf", price)
     global my_account, priKey
@@ -352,15 +351,105 @@ def Swap(token_list, trans_data, price, decimal):
         logging.info("======================AmountIn = 0")
         return False
 
+def SwapDirect(token_list, trans_data, price, decimal):
+    logging.info("Token list: {}".format(' '.join(map(str, token_list))))
+    logging.info("Price: %lf", price)
+    global my_account
+    wallet_address = my_account.address
+
+    # amount_in = int(
+    #     trans_data.amount_input * pow(10, decimal[0])) if trans_data.amount_input != 0 else web3.eth.contract(
+    #     address=token_list[0], abi=json_abi).functions.balanceOf(wallet_address).call() 
+    
+    amount_in = int(trans_data.amount_input * pow(10, decimal[0]))
+    # currBal = web3.eth.contract( address=token_list[0], abi=json_abi).functions.balanceOf(wallet_address).call()
+    currBal = getBalance(token_list[0])
+    logging.info("currBal: %s", currBal)
+    if(currBal < amount_in):
+        amount_in = currBal 
+    
+    if(isBnbAddr(token_list[0])) :
+        amount_in = max(0, amount_in - 0.01 * pow(10, 18));
+        
+    amount_out_min = int(
+    amount_in * price * (1 - trans_data.slippage_tolerance / 100) * pow(10, decimal[1] - decimal[0])) if (
+        trans_data.slippage_tolerance >= 0) else 0
+
+    logging.info("In: %d. Min out:%d", amount_in, amount_out_min)
+
+    if amount_in > 0:
+        if token_list[0].lower() == '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c':
+            txn = pancake_router.functions.swapExactETHForTokens(
+                amount_out_min,
+                token_list,
+                wallet_address,
+                (int(time.time()) + trans_data.time_limit),
+            ).buildTransaction({
+                'from': wallet_address,
+                'value': web3.toWei(trans_data.amount_input, 'ether'),
+                'gas': trans_data.gas,
+                'gasPrice': trans_data.gas_price,
+                'nonce': web3.eth.get_transaction_count(wallet_address),
+            })
+        elif token_list[-1].lower() == '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c':
+            txn = pancake_router.functions.swapExactTokensForETH(
+                amount_in,
+                amount_out_min,
+                token_list,
+                wallet_address,
+                (int(time.time()) + trans_data.time_limit),
+            ).buildTransaction({
+                'from': wallet_address,
+                'gas': trans_data.gas,
+                'gasPrice': trans_data.gas_price,
+                'nonce': web3.eth.get_transaction_count(wallet_address),
+            })
+        else:
+            txn = pancake_router.functions.swapExactTokensForTokens(
+                amount_in,
+                amount_out_min,
+                token_list,
+                wallet_address,
+                (int(time.time()) + trans_data.time_limit)
+            ).buildTransaction({
+                'from': wallet_address,
+                'gas': trans_data.gas,
+                'gasPrice': trans_data.gas_price,
+                'nonce': web3.eth.get_transaction_count(wallet_address),
+            })
+
+        signed_txn = my_account.sign_transaction(txn)
+        tx_token = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        print("Swap1in done: https://bscscan.com/tx/" + tx_token.hex())
+        AddMessage("Swap1in done: https://bscscan.com/tx/" + tx_token.hex())
+        logging.info("Swap1in done: https://bscscan.com/tx/%s", str(tx_token.hex()))
+        webbrowser.open('https://bscscan.com/tx/' + tx_token.hex())
+
+
+        tx_receipt = web3.eth.wait_for_transaction_receipt(tx_token.hex())
+        if tx_receipt['status'] == 1:
+            print("Status: Success")
+        else:
+            print("Status: Failed")
+    else:
+        logging.info("AmountIn = 0")
+        print("Swap1in Failed. Amount int = 0")
 
 def Buy(token_list, trans_data, price, decimal):
     reverse_list = token_list[::-1]
     decimal_reverse = decimal[::-1]
-    Swap(reverse_list, trans_data, 1 / price, decimal_reverse)
+    if(trans_data.dex == '1inch'):
+        Swap1in(reverse_list, trans_data, 1 / price, decimal_reverse)
+    elif (trans_data.dex == 'direct') :
+        SwapDirect(reverse_list, trans_data, 1 / price, decimal_reverse)
 
 
 def Sell(token_list, trans_data, price, decimal):
-    Swap(token_list, trans_data, price, decimal)
+    if(trans_data.dex == '1inch'):
+        Swap1in(token_list, trans_data, price, decimal)
+    elif (trans_data.dex == 'direct') :
+        SwapDirect(token_list, trans_data, price, decimal)
+    
      
 
 
@@ -455,11 +544,11 @@ def RunCheck(position, token, trend, freq, value, action, flex_slip, trans_data)
         else:
             
             UpdateCurrentPrice(position, current_price, latestBlock)
-            logging.info("Block: %i, %s Price: %9f", latestBlock, pair_name, current_price)
+            logging.info("Block: %i, %s Price: %11f", latestBlock, pair_name, current_price*1000000)
             
             if (trend == Trend.RiseUpTo) and (current_price >= value) and myCountTran  < 999999999:
                 myCountTran += 1
-                logging.info("%s = %9f. Rise Up To %9f", pair_name, current_price, value)
+                logging.info("%s = %11f. Rise Up To %11f", pair_name, current_price, value*1000000)
 
                 if action == Auto.Sell:
                     Sell(token, trans_data, current_price, decimal_list)
@@ -528,7 +617,7 @@ def DrawTable():
         table.header(
             ["No.", "Pair", "Alert Type", "Frequency","Block", "Current Price", "LP","Value Meet", "Action", "Slip", "Amount In"])
         table.set_cols_width([3, 8, 12, 10, 18, 13, 9, 12, 7, 11, 12])
-        table.set_precision(9)
+        table.set_precision(11)
         table.add_rows(table_data, False)
 
         table.set_deco(Texttable.HEADER)
@@ -714,12 +803,13 @@ def main():
                 gas = int(s_gas)
                 time_limit = int(int(data.get(section, "TimeLimit")) / 1000)
                 flex_slip = BoolMap[data.get(section, "FlexibleSlippage")]
+                dex = data.get(section, "Dex")
 
                 logging.info(
-                    "Slippage Tolerance: %.3lf. Flexible Slippage: %s. Amount In: %.3lf. Gas Price: %ld. Gas: %d. Time limit: %d",
-                    slippage_tolerance, str(flex_slip), amount_input, gas_price, gas, time_limit)
+                    "Slippage Tolerance: %.3lf. Flexible Slippage: %s. Amount In: %.3lf. Gas Price: %ld. Gas: %d. Time limit: %d, dex %s",
+                    slippage_tolerance, str(flex_slip), amount_input, gas_price, gas, time_limit, dex)
 
-                trans_data = TransactionData(slippage_tolerance, amount_input, gas_price, gas, time_limit)
+                trans_data = TransactionData(slippage_tolerance, amount_input, gas_price, gas, time_limit, dex)
         except:
             logging.error("data.ini format is incorrect")
             WriteConsoleLog("data.ini format is incorrect")

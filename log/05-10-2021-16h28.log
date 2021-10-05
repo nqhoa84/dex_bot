@@ -1,0 +1,10 @@
+[16:28:53,080][INFO][9888][auction.py:194] ==============CONFIG DATA======================
+[16:28:53,080][INFO][9888][auction.py:195] pancake_factory_addr= 0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73
+[16:28:53,080][INFO][9888][auction.py:196] pancake_router_addr= 0x10ED43C718714eb63d5aA57B78B54704E256024E
+[16:28:53,080][INFO][9888][auction.py:197] sound_alamp= True
+[16:28:53,080][INFO][9888][auction.py:198] msg_notifi= True
+[16:28:53,080][INFO][9888][auction.py:199] notifi_delay= 1.0
+[16:28:53,080][INFO][9888][auction.py:200] get_price_delay= 2.0
+[16:28:53,080][INFO][9888][auction.py:201] ==============END CONFIG DATA======================
+[16:28:53,389][INFO][9888][auction.py:95] Connected to BSC
+[16:28:53,391][INFO][10468][auction.py:361] =====================monitorAuc

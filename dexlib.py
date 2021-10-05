@@ -41,3 +41,11 @@ def swapBnbToToken1in(toTokenAddress, amount, slippage, priKey) :
 
 def swapTokenToBnb1in(fromTokenAddress, amount, slippage, priKey) :
     return swap1in(fromTokenAddress, '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', amount, slippage, priKey);
+
+def isBnbAddr(addr):
+    # return addr == '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+    return addr.lower() == '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
+
+def isBusdAddr(addr):
+    return addr.lower() == '0xe9e7cea3dedca5984780bafc599bd69add087d56'
+

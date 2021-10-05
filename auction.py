@@ -258,8 +258,9 @@ biTLaddr = '0xf5D6fed0f4735Ff2036cE4be535bD32e77dAE9fe'
 biChefAddr = '0xDbc1A13490deeF9c3C12b44FE77b503c1B061739'
 
 def getAllTxs (strAddr, fromBlk = 10000000, toBlock = 99999999):
-    url = 'https://api.bscscan.com/api?module=account&action=tokentx&address=0xb92Ab7c1edcb273AbA24b0656cEb3681654805D2&startblock=10702915&endblock=10710125&sort=asc&apikey=KVSYTVNS7ZCISVCCZQDU4G1F3436XA3HMW'
-    print('get txs: block = ', fromBlk, 'addr: ', strAddr, sep = " ")
+    url = 'https://api.bscscan.com/api?module=account&action=tokentx&address='+ str(strAddr) +'&startblock=' + str(fromBlk)+'&endblock='+ str(toBlock) +'&sort=asc&apikey=KVSYTVNS7ZCISVCCZQDU4G1F3436XA3HMW'
+    print('get txs: block = ', fromBlk, ' toblock', toBlock, ' addr: ', strAddr, sep = " ")
+    print(url)
     baseUrl = 'https://api.bscscan.com/api'
     PARAMS = {'module':'account',
               'action':'txlist',
@@ -349,94 +350,113 @@ mapAddrName = {
     '0xb9a32da7f33731ffda8e7eccb91325eee8a524ac'     :     ['SMG', '0x6bfd576220e8444CA4Cc5f89Efbd7f02a4C94C16'],
     '0x5ed6b80f0e8b1c7fdb783202d4a926bbed2d49ee'     :     ["TENFI", '0xd15C444F1199Ae72795eba15E8C1db44E47abF62', 1420000],
     '0x3992d7d9ed721257d8bd7501d280b857ed7f9c24'     :     ['TT-BUSD', '0x990E7154bB999FAa9b2fa5Ed29E822703311eA85'],
-    '0x2ef317299888dd4a4f57fff99ff2685d544feaf1'     :     ['TT-BNB', '0x990E7154bB999FAa9b2fa5Ed29E822703311eA85']
+    '0xeA96c1970b9E3d4258620F68Af95ddDEB5fbD68F'     :     ['SALE', '0x04f73a09e2eb410205be256054794fb452f0d245'],
+    '0xaDB2d11817Cd16595E4454aD03F95575c3B388f2'     :     ['MONI', '0x9573c88ae3e37508f87649f87c4dd5373c9f31e0'],
+    '0xDa6e741A7f7d4d88d4210340069348704FDf21bf'     :     ['PROS', ''],
+    }
 
-    }
-mapBidResult = {
-    '0x22d56946c6cc1d4ed09f02858ddb990fcc981c55' : 0, 
-    '0xfad3b5feac1aaf86b3f66d105f2fa9607164d86b' : 0,
-    '0x5ed6b80f0e8b1c7fdb783202d4a926bbed2d49ee' : 0,
-    '0xae126b90d2835c5a2d720b0687ec59f59b768183' : 0,
-    '0x6a2d41c87c3f28c2c0b466424de8e08fc2e23edc' : 0,
-    '0x88f0a6cb89909838d69e4e6e76ec21e2a7bdca66': 0,
-    '0x0cf86283ad1a1b7d04669696ed13bae3d5925a0a': 0,
-    '0xce059e8af96a654d4afe630fa325fbf70043ab11': 0,
-    }
+mapBidResult = { }
+acFromBlk = 11103550
+acToBlk   = 11110299 #11110750
+acToBlk   = 11110750
+
+def calBid(acFromBlk, acToBlk):
+    txs = getAllTxs("0xb92Ab7c1edcb273AbA24b0656cEb3681654805D2", acFromBlk, acToBlk)
+    global mapBidResult
+    mapBidResult = {}
+    for tx in txs:
+        logging.info(tx)
+        tokenSymbol = tx['tokenSymbol']
+        toAddr = tx['to']
+        logging.info('----------------- %s ---%s', toAddr, tokenSymbol)
+        if (toAddr.lower() == '0xb92ab7c1edcb273aba24b0656ceb3681654805d2' and tokenSymbol.lower() == 'cake'):
+            fromPrjAddr = tx['from']
+            cakeVal = float(tx['value']) / 1000000000000000000.0
+            logging.info('----------------- %s ---%s -- cake %f', fromPrjAddr, tokenSymbol, cakeVal)
+            if fromPrjAddr in mapBidResult.keys():
+                mapBidResult[fromPrjAddr] = mapBidResult[fromPrjAddr] + cakeVal
+            else:
+                mapBidResult[fromPrjAddr] = cakeVal
+
 def monitorAc(fromBlk = 0): 
     WriteConsoleLog('====================monitorAuc')
     logging.info('=====================monitorAuc')
     global w3
-    # global apeTLcontract, chefContract
-    # global apeTLabi, apeChefContractAbi
-    
-    # cakeRouterAbi = json.load(open('abi.json', 'r'))
-    #
-    # # f"https://api.etherscan.io/api?module=contract&action=getabi&address={tx['to']}&apikey={ETHERSCAN_API_KEY}"
-    # if(not w3.isConnected()) :
-    #     w3 = Web3(Web3.HTTPProvider(bsc))
-    #     w3.middleware_onion.inject(geth_poa_middleware, layer=0) 
-    #
-    # apeTLcontract = w3.eth.contract(address = apeTLaddr, abi=apeTLabi)
-    # chefContract = w3.eth.contract(address=apeChefAddr, abi=apeChefContractAbi)
+    global cakeContractObj
     
     currBlk = w3.eth.block_number
-    acFromBlk = 10702915
-    acToBlk = 10710125
+    
+    abi_json_file = open('./abi/cakeAbi.json', 'r')
+    cakeabi = json.load(abi_json_file)
+    
+    cakeContractObj = w3.eth.contract(address='0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82', abi=cakeabi) # declaring the token contract
+# token_balance = token.functions.balanceOf({your address}).call() # returns int with balance, without decimals
+    
+    printEstimate()
+    ProgramTerminated = True
+    return
+    
+    
         
     global mapBidResult
     
-    while not ProgramTerminated and currBlk < acToBlk:
-        # try: 
-        #     txs = getAllTxs("0xb92Ab7c1edcb273AbA24b0656cEb3681654805D2", acFromBlk, acToBlk) 
-        #     mapBidResult = {}
-        #     for tx in txs:
-        #         logging.info(tx)
-        #         tokenSymbol = tx['tokenSymbol']
-        #         toAddr = tx['to']
-        #         logging.info('----------------- %s ---%s', toAddr, tokenSymbol)
-        #         if(toAddr.lower() == '0xb92ab7c1edcb273aba24b0656ceb3681654805d2' and tokenSymbol.lower() == 'cake') :
-        #             fromPrjAddr = tx['from']
-        #             cakeVal = float(tx['value']) / 1000000000000000000.0
-        #             logging.info('----------------- %s ---%s -- cake %f', fromPrjAddr, tokenSymbol, cakeVal)
-        #
-        #             if fromPrjAddr in mapBidResult.keys():
-        #                 mapBidResult[fromPrjAddr] = mapBidResult[fromPrjAddr] + cakeVal
-        #             else :
-        #                 mapBidResult[fromPrjAddr] = cakeVal
-        #         #TODO check cancel transaction
-        #     printResult();
-        # except: 
-        #     logging.exception("error")
-        #     print('--------- ERROR------------------')
+    while not ProgramTerminated and currBlk < acToBlk: 
         Delay(0.4)
         currBlk = w3.eth.block_number
-        print(acToBlk - currBlk, ' block to end')
+        print(acToBlk - currBlk, ' block to end, current ', currBlk)
+        if((acToBlk - currBlk) % 10 == 9):
+            printEstimate()
         
     try: 
-        txs = getAllTxs("0xb92Ab7c1edcb273AbA24b0656cEb3681654805D2", acFromBlk, acToBlk) 
-        mapBidResult = {}
-        for tx in txs:
-            logging.info(tx)
-            tokenSymbol = tx['tokenSymbol']
-            toAddr = tx['to']
-            logging.info('----------------- %s ---%s', toAddr, tokenSymbol)
-            if(toAddr.lower() == '0xb92ab7c1edcb273aba24b0656ceb3681654805d2' and tokenSymbol.lower() == 'cake') :
-                fromPrjAddr = tx['from']
-                cakeVal = float(tx['value']) / 1000000000000000000.0
-                logging.info('----------------- %s ---%s -- cake %f', fromPrjAddr, tokenSymbol, cakeVal)
-                
-                if fromPrjAddr in mapBidResult.keys():
-                    mapBidResult[fromPrjAddr] = mapBidResult[fromPrjAddr] + cakeVal
-                else :
-                    mapBidResult[fromPrjAddr] = cakeVal
+        calBid(acFromBlk, acToBlk)
             #TODO check cancel transaction
         printResult();
     except: 
         logging.exception("error")
         print('--------- ERROR------------------')    
     
+def printEstimate():
+    
+    calBid(acFromBlk, acToBlk)
+    mapCakeReverve = {}
+    mapTotal = {}
+    for key in mapAddrName:
+        addr = Web3.toChecksumAddress(key)
         
+        cakeBal = cakeContractObj.functions.balanceOf(addr).call() / 1000000000000000000
+        mapCakeReverve[key] = cakeBal
+        mapTotal[key] = cakeBal
+        if(key in mapBidResult) :
+             mapTotal[key] = cakeBal + mapBidResult[key];
+    
+    maxrow = 10
+    print('===============cake in wallet + bid=================')
+    i = 0
+    for k, v in sorted(mapTotal.items(), key=lambda item: item[1], reverse=True) :
+        if (i < maxrow):
+            coin = mapAddrName[k][0];
+            print(coin, '\t', k, '\t', str(v))
+            i = i + 1
+            
+    print('===============bid=================')
+    i = 0
+    for k, v in sorted(mapBidResult.items(), key=lambda item: item[1], reverse=True) :
+        if k in mapAddrName.keys():
+            if(i < maxrow) :
+                coin = mapAddrName[k][0];
+                print(coin, '\t', k, '\t', str(v))
+                i = i + 1
+    
+    print('===============IN wallet=================')
+    i = 0
+    for k, v in sorted(mapCakeReverve.items(), key=lambda item: item[1], reverse=True) :
+        if(i < maxrow) :
+            coin = mapAddrName[k][0];
+            print(coin, '\t', k, '\t', str(v))
+            i = i + 1
+    
 def printResult():
+    global mapBidResult
     i = 0;
     for k, v in sorted(mapBidResult.items(), key=lambda item: item[1], reverse=True) :
         i = i + 1
@@ -451,62 +471,7 @@ def printResult():
         # pName = mapAddrName[k][0], 
         # contract2Buy = mapAddrName[k][1], 
         print(k, 'Bid ', v, name)
-        
-
-def biTL(fromBlk = 0): 
-    WriteConsoleLog('====================checking BI TL')
-    logging.info('==========================checking BI TL')
-    global w3
-    # global contractTL, contractChef
-    # global abiTL, abiChef
-    
-    abiTL = json.load(open('abi/biTLabi.json', 'r'))
-    
-    abi_json_file = open('abi/biChefAbi.json', 'r')
-    abiChef = json.load(abi_json_file)
-    
-    # f"https://api.etherscan.io/api?module=contract&action=getabi&address={tx['to']}&apikey={ETHERSCAN_API_KEY}"
-    if(not w3.isConnected()) :
-        w3 = Web3(Web3.HTTPProvider(bsc))
-        w3.middleware_onion.inject(geth_poa_middleware, layer=0) 
-    
-    contractTL = w3.eth.contract(address = biTLaddr, abi=abiTL)
-    
-    # abi_endpoint = f"https://api.etherscan.io/api?module=contract&action=getabi&address={biChefAddr}&apikey={bscScanApiKey}"
-    # abi = json.loads(requests.get(abi_endpoint).text)
-    # contractChef = w3.eth.contract(address=biChefAddr, abi=abi["result"])
-    #
-
-    contractChef = w3.eth.contract(address=biChefAddr, abi=abiChef)
-    
-    currBlk = w3.eth.block_number
-    startBlk = currBlk
-    if (fromBlk >= 10007286) :
-        startBlk = fromBlk
-    countRun = 0
-    while not ProgramTerminated : 
-        try:
-            countRun += 1
-            if (countRun % 40 == 119 and msg_notifi) :
-                AddMessage("Bot check BI timelock running.")
-                
-            WriteConsoleLog("getting all txs from block " + str(startBlk))
-            logging.info("getting all txs from block " + str(startBlk))
-            
-            txs = getAllTxs(biTLaddr, startBlk) 
-            for tx in txs:
-                logging.info(tx)
-                blk = int(tx['blockNumber'], 10)
-                if(blk >= startBlk): 
-                    startBlk = blk + 1
-                    
-                processTx(contractTL, contractChef, tx, 'Biswap')
-                #TODO check cancel transaction
-        except: 
-            logging.exception("error")
-            print('--------- ERROR------------------')  
-        Delay(300)
-
+         
 
 if __name__ == "__main__":
     main()

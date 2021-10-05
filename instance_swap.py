@@ -57,7 +57,7 @@ class Auto(enum.Enum):
 class UserAction(enum.Enum):
     NoAction = 0
     Quit = 1
-    Swap = 2
+    Swap1in = 2
 
 user_action = UserAction.NoAction
 
@@ -167,7 +167,7 @@ def Notify(message):
         AddMessage(message)
 
 
-def Swap(token_list, trans_data, price, decimal):
+def Swap1in(token_list, trans_data, price, decimal):
     logging.info("Token list: {}".format(' '.join(map(str, token_list))))
     logging.info("Price: %lf", price)
     global my_account
@@ -225,9 +225,9 @@ def Swap(token_list, trans_data, price, decimal):
 
         signed_txn = my_account.sign_transaction(txn)
         tx_token = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
-        print("Swap done: https://bscscan.com/tx/" + tx_token.hex())
-        AddMessage("Swap done: https://bscscan.com/tx/" + tx_token.hex())
-        logging.info("Swap done: https://bscscan.com/tx/%s", str(tx_token.hex()))
+        print("Swap1in done: https://bscscan.com/tx/" + tx_token.hex())
+        AddMessage("Swap1in done: https://bscscan.com/tx/" + tx_token.hex())
+        logging.info("Swap1in done: https://bscscan.com/tx/%s", str(tx_token.hex()))
         webbrowser.open('https://bscscan.com/tx/' + tx_token.hex())
 
 
@@ -238,17 +238,17 @@ def Swap(token_list, trans_data, price, decimal):
             print("Status: Failed")
     else:
         logging.info("AmountIn = 0")
-        print("Swap Failed. Amount int = 0")
+        print("Swap1in Failed. Amount int = 0")
 
 
 def Buy(token_list, trans_data, price, decimal):
     reverse_list = token_list[::-1]
     decimal_reverse = decimal[::-1]
-    Swap(reverse_list, trans_data, 1 / price, decimal_reverse)
+    Swap1in(reverse_list, trans_data, 1 / price, decimal_reverse)
 
 
 def Sell(token_list, trans_data, price, decimal):
-    Swap(token_list, trans_data, price, decimal)
+    Swap1in(token_list, trans_data, price, decimal)
 
 
 def RunSwap(token, action, trans_data):
@@ -328,7 +328,7 @@ def RunSwap(token, action, trans_data):
     
     print("Price = ", current_price, ". Estimated output:", est_out)
 
-    if user_action == UserAction.Swap:
+    if user_action == UserAction.Swap1in:
         print("Swapping......")
         if action == Auto.Sell:
             Sell(token, trans_data, current_price, decimal_list)
@@ -361,7 +361,7 @@ def KeyHook():
     if a == b'q':
         user_action = UserAction.Quit
     elif a == b's':
-        user_action = UserAction.Swap
+        user_action = UserAction.Swap1in
 
 
 def LoadConfig(config_file):
