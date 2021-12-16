@@ -736,5 +736,9 @@ def ab():
         
 
 if __name__ == "__main__":
-    print(str(hex(111111111111)))
-    swap1in('from', 'to', 10000, 1, 'prikey')
+    i = 0
+    while(i < 10) :
+        print(round(time.time()))
+        time.sleep(1);
+        i = i + 1;
+    # swap1in('from', 'to', 10000, 1, 'prikey')

@@ -317,48 +317,80 @@ def processTx(apeTLcontract, chefContract, tx, projectName= 'APE'):
 
 
 mapAddrName = {
-    '0x9ed5a62535a5dd2db2d9bb21bac42035af47f630'     :     ['NAV'],
-    '0x8f8c77987c0ea9dd2400383b623d9cbcbbaf98cf'     :     ['GMR'],
-    '0xd1c35c3f5d9d373a3f7c0668fbe75801886e060f'     :     ['SWG', '0xe792f64c582698b8572aaf765bdc426ac3aefb6b', 0],
-    '0xfad3b5feac1aaf86b3f66d105f2fa9607164d86b'     :     ["FEED", '0x67d66e8Ec1Fd25d98B3Ccd3B19B7dc4b4b7fC493', 7500000],
-    '0x6a2d41c87c3f28c2c0b466424de8e08fc2e23edc'     :     ["BBT", '', 240000],
-    '0xae126b90d2835c5a2d720b0687ec59f59b768183'     :     ["WOW", '0x4DA996C5Fe84755C80e108cf96Fe705174c5e36A', 165000],
-    '0x88f0a6cb89909838d69e4e6e76ec21e2a7bdca66'    :     ["BREW", '0x790Be81C3cA0e53974bE2688cDb954732C9862e1', 1500000],
-    '0x0cf86283ad1a1b7d04669696ed13bae3d5925a0a'    :     ["SAKE", '0x8bd778b12b15416359a227f0533ce2d91844e1ed', 60000],
-    '0xce059e8af96a654d4afe630fa325fbf70043ab11'    :     ["xBLZD", '0x9a946c3Cb16c08334b69aE249690C236Ebd5583E', 3000000],
-    '0xcbd932ac66f645a3764733aacd30ce50e522fac1'     :     ['dvi'],
-    '0xe596470d291cb2d32ec111afc314b07006690c72'     :     ['PHX', '0xb98d864ddcb573567b3a2258c9e5cab58fe7974e'],
-    '0x8ac06b55c9812e3e574cf5a5f3b49619df33099c'     :     ['NMX' ,'0xd32d01a43c869edcd1117c640fbdcfcfd97d9d65'],
-    '0x70d7ecee276ad5fdfc91b3c30d2c1cdb9dd442fb'     :     ['DPET', '0xfb62ae373aca027177d1c18ee0862817f9080d08'] ,
-    '0x6cfa3ff4e96abe93a290dc3d7a911a483c194758'     :     ['ANY', '0xF68C9Df95a18B2A5a5fa1124d79EEEffBaD0B6Fa'],
-    '0x1ba962acab22be9e49c4cebe7710c9201a72dfcc'     :     ['BABYCAKE', '0xdb8d30b74bf098af214e862c90e647bbb1fcc58c',],
-    '0xcccc0b22799e82a79007814dbc6a194410dccea5'     :     ['BMON', '0x08ba0619b1e7a582e0bce5bbe9843322c954c340'], #bnb
-    '0x46d8e47b9a6487fdab0a700b269a452cfeed49aa'     :     ['MCRN', '0xacb2d47827c9813ae26de80965845d80935afd0b'],
-    '0x7a4bae68836f486e2c99dca0fbda1845d4532194'     :     ['META HERO'],
-    '0xd27e57ff5dd3d78b03c85e2a2bb8dc37e67c5140'     :     ['POOLZ', '0x77018282fd033daf370337a5367e62d8811bc885'],
-    '0x0767a2f9c644b364bc88eea5a535afe506ba6802'     :     ['ODDZ', '0xcd40f2670cf58720b694968698a5514e924f742d'],
-    '0x2b6b2701d7f7b65ba2e1ec2d2daa17d46b85a4fe'     :     ['UBXT', '0xbbeb90cfb6fafa1f69aa130b7341089abeef5811'],
-    '0x875831249ba511a6f1e49c84d66e1a6f5601f7c6'     :     ['DND', '0x14c358b573a4ce45364a3dbd84bbb4dae87af034'],
-    '0xb7d303bbae2573513801c5f94ae0b61fa5b3426f'     :     ['ZOON', '0x9d173e6c594f479b4d47001f8e6a95a7adda42bc'],
-    '0x22d56946c6cc1d4ed09f02858ddb990fcc981c55'     :     ["HGET", '0xC7d8D35EBA58a0935ff2D5a33Df105DD9f071731', 240000], 
-    '0x027d50f36fe3b64630170b3ba82fc64bfc9bc088'     :     ['FAN', '0xfac3a1ed2480da8f5c34576c0da13f245239717d'],
-    '0x73f9eb8eb7109b171396c8cbffcb29839c8b3064'     :     ['PKMON', '0x609D183Fb91a0fce59550b62ab7d2c931b0Bb1BE'],
-    '0x88dba2cf8911a80cc50a1b392b5ff6b47b930330'     :     ['SFUND','0x477bc8d23c634c154061869478bce96be6045d12'],
-    '0xf1dd352ef3a94f60b3047b607c2bd976401f538c'     :     ['GNT', '0xf750a26eb0acf95556e8529e72ed530f3b60f348'],
+    '0x6a2d41c87c3f28c2c0b466424de8e08fc2e23edc'     :     ["BBT", '0xd48474e7444727bf500a32d5abe01943f3a59a64', 240000],
     '0x71ee6de14c90700ee06c81aabdbacd684cfe30fe'     :     ['BMON', '0x08ba0619b1e7a582e0bce5bbe9843322c954c340'], #BUSD
-    '0x75015b56da228a5367d313866f6520495344c65c'     :     ['BNX', '0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97'],
-    '0xb9a32da7f33731ffda8e7eccb91325eee8a524ac'     :     ['SMG', '0x6bfd576220e8444CA4Cc5f89Efbd7f02a4C94C16'],
-    '0x5ed6b80f0e8b1c7fdb783202d4a926bbed2d49ee'     :     ["TENFI", '0xd15C444F1199Ae72795eba15E8C1db44E47abF62', 1420000],
-    '0x3992d7d9ed721257d8bd7501d280b857ed7f9c24'     :     ['TT-BUSD', '0x990E7154bB999FAa9b2fa5Ed29E822703311eA85'],
-    '0xeA96c1970b9E3d4258620F68Af95ddDEB5fbD68F'     :     ['SALE', '0x04f73a09e2eb410205be256054794fb452f0d245'],
-    '0xaDB2d11817Cd16595E4454aD03F95575c3B388f2'     :     ['MONI', '0x9573c88ae3e37508f87649f87c4dd5373c9f31e0'],
-    '0xDa6e741A7f7d4d88d4210340069348704FDf21bf'     :     ['PROS', ''],
+    '0x33723811b0fca2a751f3912b80603fe11499d894'     :     ['WSG', '0xa58950f05fea2277d2608748412bf9f802ea4901'],
+    '0xadb2d11817cd16595e4454ad03f95575c3b388f2'     :     ['MONI', '0x9573c88ae3e37508f87649f87c4dd5373c9f31e0'],
+    '0x1723d77afde343323b769271a83d5aecada25e01'     :     ['ZOO', '0x1D229B958D5DDFca92146585a8711aECbE56F095'],
+    '0x050f559cd756ca09fc46988b6cf19ebf01256268'     :     ['BCOIN', '0x00e1656e45f18ec6747f5a8496fd39b50b38396d'],
+    '0x8b519cd36b6a3179a4c560fce987203e33df0366'     :     ['HERA', '0x49c7295ff86eabf5bf58c6ebc858db4805738c01'],
+    '0x4ad72a0841808b431525de29a7781d948675bac7'     :     ['A_HTD', '0x5e2689412fae5c29bd575fbe1d5c1cd1e0622a8f'],
+    '0xffd8457466baa1f11bb585c7fd772ad1a8b82b64'     :     ['GMEE', '0xed8c8aa8299c10f067496bb66f8cc7fb338a3405'],
+    '0x820e53c3198db5904938bec31b3ec3864a754c31'     :     ['A_antex', '0xca1acab14e85f30996ac83c64ff93ded7586977c'],
+    '0x3992d7d9ed721257d8bd7501d280b857ed7f9c24'     :     ['TT1', '0x990E7154bB999FAa9b2fa5Ed29E822703311eA85'],
+    '0x5905a1f7baf19844874b8b16e5fc4cde639b7a32'     :     ['N/A', ''],
+    '0x2ef317299888dd4a4f57fff99ff2685d544feaf1'     :     ['TT2', '0x990E7154bB999FAa9b2fa5Ed29E822703311eA85'],
+    
+    # '0xacc34268f5d7cb9b11bfb1ba4d8bd2bc2b49ee4e'     :     ['DPS', '0xf275e1AC303a4C9D987a2c48b8E555A77FeC3F1C'],
+    # '0x88f0a6cb89909838d69e4e6e76ec21e2a7bdca66'    :     ["BREW", '0x790Be81C3cA0e53974bE2688cDb954732C9862e1', 1500000],
+    # '0x73a4c2d21282dd9f9f2df2ad3e06fd25ab487c9c'     :     ['XWIN', '0xd88ca08d8eec1E9E09562213Ae83A7853ebB5d28'],  #check
+    # '0xb651a851819638cb120a46db0e01fa89006ee290'     :     ['CART', '0x5C8C8D560048F34E5f7f8ad71f2f81a89DBd273e'],
+    # '0xc1d204015268cd808b765f024e04ce01d5bff58d'     :     ['Sheesha', '0x232FB065D9d24c34708eeDbF03724f2e95ABE768'],
+    #
+    # '0xfad3b5feac1aaf86b3f66d105f2fa9607164d86b'     :     ["FEED", '0x67d66e8Ec1Fd25d98B3Ccd3B19B7dc4b4b7fC493', 7500000],
+    # '0x377056416332d017d2c2d140a097ba8c2872bb60'     :     ['XMS', '0x7859b01bbf675d67da8cd128a50d155cd881b576'],
+    # '0x6ff9b88eb94a976b0e1db7713d8d765b8be437a7'     :     ['LIGHT', '0x037838b556d9c9d654148a284682c55bb5f56ef4'],
+    # '0xc55a7183f6d060271010a4441c106f6a81d46e34'     :     ['WSPP', ''],
+    # '0xb2bef43cb487bfc89770e2e88c23f6a2163133ee'     :     ['BSCS', '0xbcb24AFb019BE7E93EA9C43B7E22Bb55D5B7f45D'],
+    # '0x47e947f01a17f8004d486fc7e37222b205a4c20b'     :     ['ARV', '0x6679eB24F59dFe111864AEc72B443d1Da666B360'],
+    # '0xf1dd352ef3a94f60b3047b607c2bd976401f538c'     :     ['GNT', '0xf750a26eb0acf95556e8529e72ed530f3b60f348'],
+    # '0x6524b3b11979d5b5c354d5a804be9711d767f38f'     :     ['XEUS', '0x4e141769366634d9c4e498257fa7ec204d22b634'],
+    # '0x1aa800be7e9829ddf97c54ef750f5e42c2a6a884'     :     ['SHARPPEI', '0xfe3af7376e412a377358d5894c790bb3e00d0dc1'],
+    # '0x2c32e56756964acdb650521c1f10bdb939d5ff7b'     :     ['PIP', '0x1215Ed20aa507578ca352E195016F289e7A17f3A']
+    
+    
+    # '0x9ed5a62535a5dd2db2d9bb21bac42035af47f630'     :     ['NAV'],
+    # '0x8f8c77987c0ea9dd2400383b623d9cbcbbaf98cf'     :     ['GMR'],
+    # '0xd1c35c3f5d9d373a3f7c0668fbe75801886e060f'     :     ['SWG', '0xe792f64c582698b8572aaf765bdc426ac3aefb6b', 0], 
+    # '0xae126b90d2835c5a2d720b0687ec59f59b768183'     :     ["WOW", '0x4DA996C5Fe84755C80e108cf96Fe705174c5e36A', 165000], 
+    # '0x0cf86283ad1a1b7d04669696ed13bae3d5925a0a'    :     ["SAKE", '0x8bd778b12b15416359a227f0533ce2d91844e1ed', 60000],
+    # '0xce059e8af96a654d4afe630fa325fbf70043ab11'    :     ["xBLZD", '0x9a946c3Cb16c08334b69aE249690C236Ebd5583E', 3000000],
+    # '0xcbd932ac66f645a3764733aacd30ce50e522fac1'     :     ['dvi'],
+    # '0xe596470d291cb2d32ec111afc314b07006690c72'     :     ['PHX', '0xb98d864ddcb573567b3a2258c9e5cab58fe7974e'],
+    # '0x8ac06b55c9812e3e574cf5a5f3b49619df33099c'     :     ['NMX' ,'0xd32d01a43c869edcd1117c640fbdcfcfd97d9d65'],
+    # '0x70d7ecee276ad5fdfc91b3c30d2c1cdb9dd442fb'     :     ['DPET', '0xfb62ae373aca027177d1c18ee0862817f9080d08'] ,
+    # '0x6cfa3ff4e96abe93a290dc3d7a911a483c194758'     :     ['ANY', '0xF68C9Df95a18B2A5a5fa1124d79EEEffBaD0B6Fa'],
+    # '0x1ba962acab22be9e49c4cebe7710c9201a72dfcc'     :     ['BABYCAKE', '0xdb8d30b74bf098af214e862c90e647bbb1fcc58c',],
+    # '0xcccc0b22799e82a79007814dbc6a194410dccea5'     :     ['BMON', '0x08ba0619b1e7a582e0bce5bbe9843322c954c340'], #bnb
+    # '0x46d8e47b9a6487fdab0a700b269a452cfeed49aa'     :     ['MCRN', '0xacb2d47827c9813ae26de80965845d80935afd0b'],
+    # '0x7a4bae68836f486e2c99dca0fbda1845d4532194'     :     ['META HERO'],
+    # '0xd27e57ff5dd3d78b03c85e2a2bb8dc37e67c5140'     :     ['POOLZ', '0x77018282fd033daf370337a5367e62d8811bc885'],
+    # '0x0767a2f9c644b364bc88eea5a535afe506ba6802'     :     ['ODDZ', '0xcd40f2670cf58720b694968698a5514e924f742d'],
+    # '0x2b6b2701d7f7b65ba2e1ec2d2daa17d46b85a4fe'     :     ['UBXT', '0xbbeb90cfb6fafa1f69aa130b7341089abeef5811'],
+    # '0x875831249ba511a6f1e49c84d66e1a6f5601f7c6'     :     ['DND', '0x14c358b573a4ce45364a3dbd84bbb4dae87af034'],
+    # '0xb7d303bbae2573513801c5f94ae0b61fa5b3426f'     :     ['ZOON', '0x9d173e6c594f479b4d47001f8e6a95a7adda42bc'],
+    # '0x22d56946c6cc1d4ed09f02858ddb990fcc981c55'     :     ["HGET", '0xC7d8D35EBA58a0935ff2D5a33Df105DD9f071731', 240000], 
+    # '0x027d50f36fe3b64630170b3ba82fc64bfc9bc088'     :     ['FAN', '0xfac3a1ed2480da8f5c34576c0da13f245239717d'],
+    # '0x73f9eb8eb7109b171396c8cbffcb29839c8b3064'     :     ['PKMON', '0x609D183Fb91a0fce59550b62ab7d2c931b0Bb1BE'],
+    # '0x88dba2cf8911a80cc50a1b392b5ff6b47b930330'     :     ['SFUND','0x477bc8d23c634c154061869478bce96be6045d12'], 
+    # '0x75015b56da228a5367d313866f6520495344c65c'     :     ['BNX', '0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97'],
+    # '0xb9a32da7f33731ffda8e7eccb91325eee8a524ac'     :     ['SMG', '0x6bfd576220e8444CA4Cc5f89Efbd7f02a4C94C16'],
+    # '0x5ed6b80f0e8b1c7fdb783202d4a926bbed2d49ee'     :     ["TENFI", '0xd15C444F1199Ae72795eba15E8C1db44E47abF62', 1420000],
+    # 
+    # '0xea96c1970b9e3d4258620f68af95dddeb5fbd68f'     :     ['SALE', '0x04f73a09e2eb410205be256054794fb452f0d245'], 
+    # '0xda6e741a7f7d4d88d4210340069348704fdf21bf'     :     ['PROS', ''],  
+    # '0x7db4456a73a9c94a381d244e9dfc76e83c05913e'     :     ['SWAPP', '0x0efE961C733FF46ce34C56a73eba0c6a0E18E0F5'], #check
+    # '0xb93a33f4ca46c1e1d65387313706cb8728b75703'     :     ['AIRT', '0x016CF83732f1468150D87dCC5BdF67730B3934D3'], 
+    # '0x235540bd639308e51efa89abf2a9af8bc1dec877'     :     ['GENS', ''],
+    # '0xc55a7183f6d060271010a4441c106f6a81d46e34'     :     ['WOPP', ''], 
+    # '0x8595c4ad15d51c5bf920c249869ec5b3250c2d4d'     :     ['aaa', ''],
+    # '0x1723d77afde343323b769271a83d5aecada25e01'     :     ['ZOO', '0x1D229B958D5DDFca92146585a8711aECbE56F095']
     }
+ 
 
 mapBidResult = { }
-acFromBlk = 11103550
-acToBlk   = 11110299 #11110750
-acToBlk   = 11110750
+acFromBlk = 13325255 
+acToBlk   = 13327655
 
 def calBid(acFromBlk, acToBlk):
     txs = getAllTxs("0xb92Ab7c1edcb273AbA24b0656cEb3681654805D2", acFromBlk, acToBlk)
@@ -392,18 +424,21 @@ def monitorAc(fromBlk = 0):
     cakeContractObj = w3.eth.contract(address='0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82', abi=cakeabi) # declaring the token contract
 # token_balance = token.functions.balanceOf({your address}).call() # returns int with balance, without decimals
     
-    printEstimate()
-    ProgramTerminated = True
-    return
+    # printEstimate()
+    # ProgramTerminated = True
+    # return
     
     
         
     global mapBidResult
-    
+    remainBlk = 1000000;
     while not ProgramTerminated and currBlk < acToBlk: 
         Delay(0.4)
         currBlk = w3.eth.block_number
-        print(acToBlk - currBlk, ' block to end, current ', currBlk)
+        
+        if(remainBlk != acToBlk - currBlk): 
+            remainBlk = acToBlk - currBlk
+            print(acToBlk - currBlk, ' block to end, current ', currBlk)
         if((acToBlk - currBlk) % 10 == 9):
             printEstimate()
         
@@ -416,7 +451,7 @@ def monitorAc(fromBlk = 0):
         print('--------- ERROR------------------')    
     
 def printEstimate():
-    
+    global auctionOrder
     calBid(acFromBlk, acToBlk)
     mapCakeReverve = {}
     mapTotal = {}
@@ -424,12 +459,14 @@ def printEstimate():
         addr = Web3.toChecksumAddress(key)
         
         cakeBal = cakeContractObj.functions.balanceOf(addr).call() / 1000000000000000000
+        logging.info('%s -- cake hold: %f', addr, cakeBal)
         mapCakeReverve[key] = cakeBal
         mapTotal[key] = cakeBal
         if(key in mapBidResult) :
              mapTotal[key] = cakeBal + mapBidResult[key];
     
     maxrow = 10
+    nowOrder = '';
     print('===============cake in wallet + bid=================')
     i = 0
     for k, v in sorted(mapTotal.items(), key=lambda item: item[1], reverse=True) :
@@ -437,7 +474,12 @@ def printEstimate():
             coin = mapAddrName[k][0];
             print(coin, '\t', k, '\t', str(v))
             i = i + 1
-            
+            nowOrder = nowOrder + "," + coin
+    
+    if(nowOrder != auctionOrder):
+        auctionOrder = nowOrder
+        SoundAlert()
+    
     print('===============bid=================')
     i = 0
     for k, v in sorted(mapBidResult.items(), key=lambda item: item[1], reverse=True) :
@@ -474,4 +516,6 @@ def printResult():
          
 
 if __name__ == "__main__":
+    global auctionOrder
+    auctionOrder = ''
     main()
