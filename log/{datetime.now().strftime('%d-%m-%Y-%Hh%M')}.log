@@ -1,0 +1,16 @@
+[14:40:08,616][INFO][4518684160][auction.py:195] ==============CONFIG DATA======================
+[14:40:08,616][INFO][4518684160][auction.py:196] pancake_factory_addr= 0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73
+[14:40:08,617][INFO][4518684160][auction.py:197] pancake_router_addr= 0x10ED43C718714eb63d5aA57B78B54704E256024E
+[14:40:08,617][INFO][4518684160][auction.py:198] sound_alamp= False
+[14:40:08,617][INFO][4518684160][auction.py:199] msg_notifi= True
+[14:40:08,617][INFO][4518684160][auction.py:200] notifi_delay= 1.0
+[14:40:08,617][INFO][4518684160][auction.py:201] get_price_delay= 12.0
+[14:40:08,617][INFO][4518684160][auction.py:202] ==============END CONFIG DATA======================
+[14:40:09,307][INFO][4518684160][auction.py:96] Connected to BSC
+[14:40:09,307][INFO][123145616855040][auction.py:441] =====================monitorAuc
+[14:40:18,423][INFO][4518684160][auction.py:132] Message Notification:Total Cake (bid + wallet)
+1: hpy, bidder 0xa6d19c2a2ea13e9ef02d795155f6c335af764955, contract 0xf5d8a096cccb31b9d7bce5afe812be23e3d4690d, total cake 6697.683574941558
+2: MCRN, bidder 0x46d8e47b9a6487fdab0a700b269a452cfeed49aa, contract 0xacb2d47827c9813ae26de80965845d80935afd0b, total cake 153.73261284547084
+3: wzrd, bidder 0x0888406f1091d18e941f3fe74ee0286963ffac48, contract 0xfa40d8fc324bcdd6bbae0e086de886c571c225d4, total cake 2.5225953849923277
+4: GEAR, bidder 0x73e60b46908319b17f1de07c5d38437bff684e50, contract 0xb4404DaB7C0eC48b428Cf37DeC7fb628bcC41B36, total cake 1.557268376510759
+5: BBT, bidder 0x6a2d41c87c3f28c2c0b466424de8e08fc2e23edc, contract 0xd48474e7444727bf500a32d5abe01943f3a59a64, total cake 0.7327540395244543

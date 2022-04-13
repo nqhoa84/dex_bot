@@ -10,7 +10,7 @@ import threading
 from configparser import ConfigParser
 import telebot
 from texttable import Texttable
-import msvcrt as m
+#import msvcrt as m
 from os import system, name
 import logging
 from datetime import datetime
@@ -42,7 +42,7 @@ data_mutex = threading.Lock()
 draw_mutex = threading.Lock()
 console_mutex = threading.Lock()
 
-logging.basicConfig(filename=F"./log/{datetime.now().strftime('%d-%m-%Y-%Hh%M')}.log",
+logging.basicConfig(filename="/Volumes/data/dex_bot/log/{datetime.now().strftime('%d-%m-%Y-%Hh%M')}.log",
                     filemode='w',
                     format='[%(asctime)s,%(msecs)03d][%(levelname)s][%(thread)d][%(filename)s:%(lineno)d] %(message)s',
                     datefmt='%H:%M:%S',
@@ -260,7 +260,7 @@ biChefAddr = '0xDbc1A13490deeF9c3C12b44FE77b503c1B061739'
 
 def getAllTxs (strAddr, fromBlk = 10000000, toBlock = 99999999):
     url = 'https://api.bscscan.com/api?module=account&action=tokentx&address='+ str(strAddr) +'&startblock=' + str(fromBlk)+'&endblock='+ str(toBlock) +'&sort=asc&apikey=KVSYTVNS7ZCISVCCZQDU4G1F3436XA3HMW'
-    print('get txs: block = ', fromBlk, ' toblock', toBlock, ' addr: ', strAddr, sep = " ")
+    print('get txs: block = ' + fromBlk + ' toblock' + toBlock +  ' addr: ' + strAddr)
     print(url)
     baseUrl = 'https://api.bscscan.com/api'
     PARAMS = {'module':'account',
@@ -345,6 +345,9 @@ mapAddrName = {
     '0x71f36803139cac2796db65f373fb7f3ee0bf3bf9'     :     ['BLP', '0xfe1d7f7a8f0bda6e415593a2e4f82c64b446d404'],
     '0x5735bb4e439474828235a5f4048edf0240dca7f2'     :     ['YEL', '0xd3b71117e6c1558c1553305b44988cd944e97300'],
     '0x638fbd99fe8cc28535fa05d3825a028c0a1e430d'     :     ['MNFT', '0x36953B5Ec00A13eDcEceB3aF258D034913D2A79D'],
+    '0xa6d19c2a2ea13e9ef02d795155f6c335af764955'     :     ['hpy', '0xf5d8a096cccb31b9d7bce5afe812be23e3d4690d'],
+    '0x0888406f1091d18e941f3fe74ee0286963ffac48'     :     ['wzrd', '0xfa40d8fc324bcdd6bbae0e086de886c571c225d4']
+    
     
     #'0xffd8457466baa1f11bb585c7fd772ad1a8b82b64'     :     ['GMEE', '0xed8c8aa8299c10f067496bb66f8cc7fb338a3405'],
     # '0x5905a1f7baf19844874b8b16e5fc4cde639b7a32'     :     ['SIP', '0x9e5965d28e8d44cae8f9b809396e0931f9df71ca'],
@@ -411,8 +414,8 @@ mapAddrName = {
  
 
 mapBidResult = { }
-acFromBlk = 16081390 
-acToBlk   = 16539350
+acFromBlk = 16881390 
+acToBlk   = 16981271
 
 def calBid(acFromBlk, acToBlk):
     txs = getAllTxs("0xb92Ab7c1edcb273AbA24b0656cEb3681654805D2", acFromBlk, acToBlk)
