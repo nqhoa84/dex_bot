@@ -17,6 +17,7 @@ from datetime import datetime
 from collections import namedtuple
 import webbrowser 
 import requests
+from time import sleep
 
 pancake_factory = 0
 pancake_router = 0 
@@ -229,8 +230,8 @@ def main():
         return 0
      
     if not ProgramTerminated:
-        ht = threading.Thread(target=KeyHook, args=())
-        ht.start()
+        # ht = threading.Thread(target=KeyHook, args=())
+        # ht.start()
         
         fromBlk = 0 #10667269 - 2
         dr = threading.Thread(target=monitorAc, args=(fromBlk,))
@@ -242,7 +243,7 @@ def main():
         # bscBlock = threading.Thread(target=getLatestBlock, args=())
         # bscBlock.start()
 
-        ht.join()
+        # ht.join()
         dr.join() 
         ms.join()
         # bscBlock.join()  
@@ -281,6 +282,15 @@ def getAllTxs (strAddr, fromBlk = 10000000, toBlock = 99999999):
     if(data['status'] == '1') : 
         return data['result']
     return []
+
+def getCakeBal(holderWallet):
+    url = 'https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82&address='+ str(holderWallet) +'&tag=latest&apikey=KVSYTVNS7ZCISVCCZQDU4G1F3436XA3HMW'
+    r = requests.get(url = url)
+    data = r.json()
+    print(data)
+    if(data['status'] == '1') : 
+        return data['result'] / 1000000000000000000
+    return 0
     
 def processTx(apeTLcontract, chefContract, tx, projectName= 'APE'):
     global w3
@@ -313,23 +323,35 @@ def processTx(apeTLcontract, chefContract, tx, projectName= 'APE'):
             logging.exception("error")
             AddMessage(projectName + ': ' + strFunctionName + ', check quick')
 
-
-
-
 mapAddrName = {
     '0x6a2d41c87c3f28c2c0b466424de8e08fc2e23edc'     :     ["BBT", '0xd48474e7444727bf500a32d5abe01943f3a59a64', 240000],
-    '0x71ee6de14c90700ee06c81aabdbacd684cfe30fe'     :     ['BMON', '0x08ba0619b1e7a582e0bce5bbe9843322c954c340'], #BUSD
-    '0x33723811b0fca2a751f3912b80603fe11499d894'     :     ['WSG', '0xa58950f05fea2277d2608748412bf9f802ea4901'],
-    '0xadb2d11817cd16595e4454ad03f95575c3b388f2'     :     ['MONI', '0x9573c88ae3e37508f87649f87c4dd5373c9f31e0'],
+    '0x4ad72a0841808b431525de29a7781d948675bac7'     :     ['HTD', '0x5e2689412fae5c29bd575fbe1d5c1cd1e0622a8f'],
+    '0xb8614fabf4bba416b9db620e12272ad63b14387e'     :     ['8PAY', '0xfeea0bdd3d07eb6fe305938878c0cadbfa169042'],
+    '0x46d8e47b9a6487fdab0a700b269a452cfeed49aa'     :     ['MCRN', '0xacb2d47827c9813ae26de80965845d80935afd0b'],
+    '0xcb70f0b3791d05d0d2aec36805fd2411a89f3aa1'     :     ['PRL', '0xd07e82440A395f3F3551b42dA9210CD1Ef4f8B24'],
+    '0x05adabb0f3bff63f5f7712f05f04f509494a18f3'     :     ['HOTcross', '0x4fa7163e153419e0e1064e418dd7a99314ed27b6'],
+    '0xe9ab352015928cbe21771564e97bdaa3f5fbcbac'     :     ['GRAV', '0xa6168c7e5eb7c5c379f3a1d7cf1073e09b2f031e'],
+    '0xe60035673bafdad24c5b14e9556f5793dffb3362'     :     ['LOA', '0x94b69263FCA20119Ae817b6f783Fc0F13B02ad50'],
+    '0x3591b656d753226de239d2b9a48221daf0751fca'     :     ['HE', '0x20d39a5130f799b95b55a930e5b7ebc589ea9ed8'],
+    '0x73e60b46908319b17f1de07c5d38437bff684e50'     :     ['GEAR', '0xb4404DaB7C0eC48b428Cf37DeC7fb628bcC41B36'],
+    '0x820e53c3198db5904938bec31b3ec3864a754c31'     :     ['Antex', '0xca1acab14e85f30996ac83c64ff93ded7586977c'],
+    '0x8e762609cea5ddd3234b9d41cf8d0d8b4f2581a6'     :     ['TEM', '0x19e6BfC1A6e4B042Fb20531244D47E252445df01'],
+    '0xf113b815e24cc866137c4933b39fe2878ed1f2d2'     :     ['RDR', '0x92da433da84d58dfe2aade1943349e491cbd6820'], #BUSD
+    '0x38408a0d905930f44fe6c53321684824b22c30c5'     :     ['FIGHT', '0x4f39c3319188a723003670c3f9b9e7ef991e52f3'],
+    '0xadb2d11817cd16595e4454ad03f95575c3b388f2'     :     ['MONI', '0x9573c88aE3e37508f87649f87c4dd5373C9F31e0'],
+    '0xadf88a1edc8f15cea27f2674ed2ba1382f46a8a5'     :     ['DOME', '0x475bfaa1848591ae0e6ab69600f48d828f61a80e'],
     '0x1723d77afde343323b769271a83d5aecada25e01'     :     ['ZOO', '0x1D229B958D5DDFca92146585a8711aECbE56F095'],
-    '0x050f559cd756ca09fc46988b6cf19ebf01256268'     :     ['BCOIN', '0x00e1656e45f18ec6747f5a8496fd39b50b38396d'],
-    '0x8b519cd36b6a3179a4c560fce987203e33df0366'     :     ['HERA', '0x49c7295ff86eabf5bf58c6ebc858db4805738c01'],
-    '0x4ad72a0841808b431525de29a7781d948675bac7'     :     ['A_HTD', '0x5e2689412fae5c29bd575fbe1d5c1cd1e0622a8f'],
-    '0xffd8457466baa1f11bb585c7fd772ad1a8b82b64'     :     ['GMEE', '0xed8c8aa8299c10f067496bb66f8cc7fb338a3405'],
-    '0x820e53c3198db5904938bec31b3ec3864a754c31'     :     ['A_antex', '0xca1acab14e85f30996ac83c64ff93ded7586977c'],
-    '0x3992d7d9ed721257d8bd7501d280b857ed7f9c24'     :     ['TT1', '0x990E7154bB999FAa9b2fa5Ed29E822703311eA85'],
-    '0x5905a1f7baf19844874b8b16e5fc4cde639b7a32'     :     ['N/A', ''],
-    '0x2ef317299888dd4a4f57fff99ff2685d544feaf1'     :     ['TT2', '0x990E7154bB999FAa9b2fa5Ed29E822703311eA85'],
+    '0xde78f42bff7edf1e70450e7bcfd8abcf94e3a65e'     :     ['TINC', '0x05aD6E30A855BE07AfA57e08a4f30d00810a402e'],
+    '0x71f36803139cac2796db65f373fb7f3ee0bf3bf9'     :     ['BLP', '0xfe1d7f7a8f0bda6e415593a2e4f82c64b446d404'],
+    '0x5735bb4e439474828235a5f4048edf0240dca7f2'     :     ['YEL', '0xd3b71117e6c1558c1553305b44988cd944e97300'],
+    '0x638fbd99fe8cc28535fa05d3825a028c0a1e430d'     :     ['MNFT', '0x36953B5Ec00A13eDcEceB3aF258D034913D2A79D'],
+    
+    #'0xffd8457466baa1f11bb585c7fd772ad1a8b82b64'     :     ['GMEE', '0xed8c8aa8299c10f067496bb66f8cc7fb338a3405'],
+    # '0x5905a1f7baf19844874b8b16e5fc4cde639b7a32'     :     ['SIP', '0x9e5965d28e8d44cae8f9b809396e0931f9df71ca'],
+    # '0x20c99830967a18563d2d3ed51094add9fbe06e2a'     :     ['SDAO', '0x90ed8f1dc86388f14b64ba8fb4bbd23099f18240'], 
+    #
+    # '0xb8ce421729232ecd5dfc7bd0adfe1f4dad9d9cce'     :     ['BATH', '0x0bc89aa98Ad94E6798Ec822d0814d934cCD0c0cE'],
+    
     
     # '0xacc34268f5d7cb9b11bfb1ba4d8bd2bc2b49ee4e'     :     ['DPS', '0xf275e1AC303a4C9D987a2c48b8E555A77FeC3F1C'],
     # '0x88f0a6cb89909838d69e4e6e76ec21e2a7bdca66'    :     ["BREW", '0x790Be81C3cA0e53974bE2688cDb954732C9862e1', 1500000],
@@ -362,7 +384,7 @@ mapAddrName = {
     # '0x6cfa3ff4e96abe93a290dc3d7a911a483c194758'     :     ['ANY', '0xF68C9Df95a18B2A5a5fa1124d79EEEffBaD0B6Fa'],
     # '0x1ba962acab22be9e49c4cebe7710c9201a72dfcc'     :     ['BABYCAKE', '0xdb8d30b74bf098af214e862c90e647bbb1fcc58c',],
     # '0xcccc0b22799e82a79007814dbc6a194410dccea5'     :     ['BMON', '0x08ba0619b1e7a582e0bce5bbe9843322c954c340'], #bnb
-    # '0x46d8e47b9a6487fdab0a700b269a452cfeed49aa'     :     ['MCRN', '0xacb2d47827c9813ae26de80965845d80935afd0b'],
+    
     # '0x7a4bae68836f486e2c99dca0fbda1845d4532194'     :     ['META HERO'],
     # '0xd27e57ff5dd3d78b03c85e2a2bb8dc37e67c5140'     :     ['POOLZ', '0x77018282fd033daf370337a5367e62d8811bc885'],
     # '0x0767a2f9c644b364bc88eea5a535afe506ba6802'     :     ['ODDZ', '0xcd40f2670cf58720b694968698a5514e924f742d'],
@@ -384,13 +406,13 @@ mapAddrName = {
     # '0x235540bd639308e51efa89abf2a9af8bc1dec877'     :     ['GENS', ''],
     # '0xc55a7183f6d060271010a4441c106f6a81d46e34'     :     ['WOPP', ''], 
     # '0x8595c4ad15d51c5bf920c249869ec5b3250c2d4d'     :     ['aaa', ''],
-    # '0x1723d77afde343323b769271a83d5aecada25e01'     :     ['ZOO', '0x1D229B958D5DDFca92146585a8711aECbE56F095']
+    
     }
  
 
 mapBidResult = { }
-acFromBlk = 13325255 
-acToBlk   = 13327655
+acFromBlk = 16081390 
+acToBlk   = 16539350
 
 def calBid(acFromBlk, acToBlk):
     txs = getAllTxs("0xb92Ab7c1edcb273AbA24b0656cEb3681654805D2", acFromBlk, acToBlk)
@@ -409,9 +431,10 @@ def calBid(acFromBlk, acToBlk):
                 mapBidResult[fromPrjAddr] = mapBidResult[fromPrjAddr] + cakeVal
             else:
                 mapBidResult[fromPrjAddr] = cakeVal
-
+    print('cal bid ok');
+    
 def monitorAc(fromBlk = 0): 
-    WriteConsoleLog('====================monitorAuc')
+    print('====================monitorAuc')
     logging.info('=====================monitorAuc')
     global w3
     global cakeContractObj
@@ -432,14 +455,15 @@ def monitorAc(fromBlk = 0):
         
     global mapBidResult
     remainBlk = 1000000;
+    print('currBlk = ' + str(currBlk) + ' acToBlk ' + str(acToBlk) + ' pro ' + str(ProgramTerminated))
     while not ProgramTerminated and currBlk < acToBlk: 
-        Delay(0.4)
+        Delay(1)
         currBlk = w3.eth.block_number
-        
+        # print('currBlk = ' + str(currBlk))
         if(remainBlk != acToBlk - currBlk): 
             remainBlk = acToBlk - currBlk
             print(acToBlk - currBlk, ' block to end, current ', currBlk)
-        if((acToBlk - currBlk) % 10 == 9):
+        if((acToBlk - currBlk) % 2 == 1):
             printEstimate()
         
     try: 
@@ -452,33 +476,40 @@ def monitorAc(fromBlk = 0):
     
 def printEstimate():
     global auctionOrder
-    calBid(acFromBlk, acToBlk)
+    # calBid(acFromBlk, acToBlk)
+    print('==printEstimate===')
     mapCakeReverve = {}
     mapTotal = {}
     for key in mapAddrName:
         addr = Web3.toChecksumAddress(key)
-        
+        # addr = key
+    
         cakeBal = cakeContractObj.functions.balanceOf(addr).call() / 1000000000000000000
-        logging.info('%s -- cake hold: %f', addr, cakeBal)
+        # cakeBal = getCakeBal(addr)
+        # logging.info('%s -- cake hold: %f', addr, cakeBal)
+        # print(addr + '-- cake hold: ' + str(cakeBal))
+        # sleep(1)
         mapCakeReverve[key] = cakeBal
         mapTotal[key] = cakeBal
         if(key in mapBidResult) :
              mapTotal[key] = cakeBal + mapBidResult[key];
     
-    maxrow = 10
-    nowOrder = '';
+    maxrow = 5
+    nowOrder = 'Total Cake (bid + wallet)';
     print('===============cake in wallet + bid=================')
     i = 0
     for k, v in sorted(mapTotal.items(), key=lambda item: item[1], reverse=True) :
         if (i < maxrow):
             coin = mapAddrName[k][0];
+            coinAddr = mapAddrName[k][1];
             print(coin, '\t', k, '\t', str(v))
             i = i + 1
-            nowOrder = nowOrder + "," + coin
+            nowOrder = nowOrder + '\n' + str(i) + ': ' + coin + ', bidder ' + k + ', contract ' + coinAddr + ', total cake ' + str(v)
     
     if(nowOrder != auctionOrder):
         auctionOrder = nowOrder
-        SoundAlert()
+        # SoundAlert()
+        AddMessage(nowOrder)
     
     print('===============bid=================')
     i = 0
@@ -518,4 +549,5 @@ def printResult():
 if __name__ == "__main__":
     global auctionOrder
     auctionOrder = ''
+    print ('what the fcuk is going on ')
     main()

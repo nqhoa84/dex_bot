@@ -242,7 +242,7 @@ def main():
         ht = threading.Thread(target=KeyHook, args=())
         ht.start()
         
-        fromBlk = 11153148-1 #10667269 - 2
+        fromBlk = 0
         dr = threading.Thread(target=apeTL, args=(fromBlk,))
         dr.start()
         #
