@@ -1,4 +1,7 @@
 
+from config import Config
+
+
 class Erc20Move:
     hash = ''
     ownerAddr = ''
@@ -13,6 +16,9 @@ class Erc20Move:
     def __init__(self, ownerAddr) :
         self.ownerAddr = ownerAddr
     
+    def isIn(self):
+        return self.ownerAddr == self.toAddr
+    
     def getDirection (self):
         return 'IN' if self.ownerAddr == self.toAddr else 'OUT'
 
@@ -26,7 +32,7 @@ class Erc20Move:
 class Transaction:
     ownerAddr = ''
     blockNumber = 0
-    timeStamp: any
+    timeStamp = 0
     hash = ''
     blockHash = ''
     fromAddr = ''
@@ -42,6 +48,8 @@ class Transaction:
 
     lstErc20Move: list[Erc20Move] = []
     direct = ''
+    def isIn(self):
+        return self.ownerAddr == self.toAddr
     
     def __init__(self, ownerAddr) :
         self.ownerAddr = ownerAddr
@@ -63,27 +71,23 @@ class Transaction:
                 return True
         return False
     
+    def searchMove(self, token:str) -> Erc20Move:
+        for m in self.lstErc20Move:
+            if(m.tokenSymbol.upper() == token.upper()) :
+                return m
+        return None
+    
     def getCsvHeader():
         return f'blockNumber,timeStamp,hash,direct,fromAddr,toAddr,value,fee,isError,{Erc20Move('').getCsvHeader()},{Erc20Move('').getCsvHeader()}'
     
     def toCSV(self):
-        self.direct = 'IN' if self.ownerAddr == self.toAddr else 'OUT'
-        fee = self.gasPrice * self.gasUsed
-        if(self.cumulativeGasUsed > 0):
-            fee = self.gasPrice * self.cumulativeGasUsed 
-        # dicMove = {}
-        # for m in self.lstErc20Move:
-        #     token = m.contractAddress
-        #     if(token in dicMove) :
-        #         dicMove[token].value += m.value
-        #     else:
-        #         dicMove[token] = m
-
+        self.direct = 'IN' if self.ownerAddr == self.toAddr else 'OUT' 
+        fee = self.gasPrice * self.gasUsed / Config.nativeTokenDecimalLeft
         ms = ''
         for m in self.lstErc20Move:
             ms += f',{m.toCSV()}'
 
-        return f'{self.blockNumber},{self.timeStamp},{self.hash},{self.direct},{self.fromAddr},{self.toAddr},{self.value},{fee},{self.isError}{ms}'
+        return f'{self.blockNumber},{self.timeStamp},{self.hash},{self.direct},{self.fromAddr},{self.toAddr},{self.value},{fee},{self.isError},{self.lstErc20Move.__len__()}{ms}'
 
 
 

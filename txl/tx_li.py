@@ -7,13 +7,7 @@ import time
 
 gConfig = Config()
 
-gPhishingListContracts = ['0xd6cbfe031449ad5619e4baf3c54deaee151dcc13'
-                          ,'0xA37f0DffDcb8Ba0906519848B820CE75915C2f74'
-                          ,'0x4d1F040a6e1Ad9E2D320DEbBB1EFD03E36dAF2ce'
-                          ,'0x329a2ac897a23302cce1640e73a8b8d2530e2aae'
-                          ,'0xa01fc068860bddee18a8de04a9092ba608610a79','0xeC7e05fA10d111A56DEE0F603b343B8896913528'
-                          ,'0x2fb883dd6b8c573f77331df8c459a1015d9c2f5f','0x65dc37b398fb7674495c8485fc4f4fafad116f27'
-                          ]
+gPhishingListContracts = []
 
 def isPhishing(tx):
     # return tx['value'] == '0' or tx['contractAddress'].lower() in gPhishingListContracts
@@ -23,7 +17,7 @@ def fileExists(filePath) :
     return Path(filePath).exists()
 
 def listAll(fileName, wallAddr, startblock, endblock):
-    url = 'https://api.bscscan.com/api'
+    url = 'https://api.lineascan.build/api'
     offset = 9900
     paras = {'module':'account', 'action':'txlist',
             # 'contractaddress':'0xc9849e6fdb743d08faee3e34dd2d1bc69ea11a51',
@@ -86,7 +80,7 @@ def listAll(fileName, wallAddr, startblock, endblock):
      
 
 def lstXxx20Txs(fileName, wallAddr, startblock, endblock, offset):
-    url = 'https://api.bscscan.com/api'
+    url = 'https://api.lineascan.build/api'
     paras = {'module':'account', 'action':'tokentx',
             # 'contractaddress':'0xc9849e6fdb743d08faee3e34dd2d1bc69ea11a51',
             'address':wallAddr, 
@@ -140,10 +134,10 @@ def lstXxx20Txs(fileName, wallAddr, startblock, endblock, offset):
         f.close()
 
     else:
-        print('call to bscscan: ERROR')
+        print('call to LINEA SCAN: ERROR')
 
 def lstInternalTxs(wallAddr, startblock, endblock, offset) -> dict[str, Erc20Move]:
-    url = 'https://api.bscscan.com/api'
+    url = 'https://api.lineascan.build/api'
     paras = {'module':'account', 'action':'txlistinternal',
             # 'contractaddress':'0xc9849e6fdb743d08faee3e34dd2d1bc69ea11a51',
             'address':wallAddr, 
@@ -171,12 +165,12 @@ def lstInternalTxs(wallAddr, startblock, endblock, offset) -> dict[str, Erc20Mov
                 finalDictionary[txHash] = move 
         return finalDictionary
     else:
-        raise Exception("call to bscscan: ERROR")
-        print('call to bscscan: ERROR')
+        raise Exception("call to LINEA SCAN: ERROR")
+        print('call to LINEA: ERROR')
 
 
 def lstErc20Txs(wallAddr, startblock, endblock, offset) -> list[Erc20Move]:
-    url = 'https://api.bscscan.com/api' 
+    url = 'https://api.lineascan.build/api' 
     paras = {'module':'account', 'action':'tokentx',
             # 'contractaddress':'',
             'address':wallAddr, 
@@ -221,7 +215,7 @@ def lstErc20Txs(wallAddr, startblock, endblock, offset) -> list[Erc20Move]:
 
 
 def lstNormalTxs(wallAddr, startblock, endblock, offset) -> dict[str,Transaction]:
-    url = 'https://api.bscscan.com/api' 
+    url = 'https://api.lineascan.build/api' 
     paras = {'module':'account', 'action':'txlist',
             # 'contractaddress':'',
             'address':wallAddr, 
@@ -253,15 +247,13 @@ def lstNormalTxs(wallAddr, startblock, endblock, offset) -> dict[str,Transaction
 
     return finalDictionary 
 
-def main(): 
-    
-    fileName = f'{datetime.now().strftime('%Y_%m_%d %H_%M_%S')}.csv' 
-
-    # wallAddr = '0xd4853Ca382B51f50A8dE3389efB319fff03690C5'.lower()
+def main():  
     wallAddr = Config.watchAddress
-    startblock = Config.startblock #40312400
+    startblock = Config.startblock 
     endblock = 	 Config.endblock
     offset = 9999
+
+    fileName = f'LI_{wallAddr[39:]} {datetime.now().strftime('%Y%m%d %H_%M')} {startblock}_{endblock} .csv' 
 
     while (startblock <= endblock):
         print(f'{datetime.now().strftime('%Y_%m_%d %H_%M_%S')}.csv' )
@@ -341,7 +333,7 @@ def exportListTx2File(fileName, lstTx:list[Transaction]):
 
 if __name__ == '__main__':
     print(datetime.now())
-    print (Config.API_KEY)
+    print (Config.API_KEY + '     ----- linea')
     print (Config.lstWatchToken)
     print(Config.nativeTokenDecimalLeft)
     print(Config.nativeTokenSymbol)
